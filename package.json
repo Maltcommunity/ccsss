@@ -19,7 +19,7 @@
   },
   "bin": "./bin/ccsss",
   "dependencies": {
-    "clean-css": "3.4.10",
+    "clean-css": "4.1.11",
     "filter-css": "0.1.0",
     "oust": "0.2.4",
     "penthouse": "0.9.7",
