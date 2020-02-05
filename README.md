@@ -73,7 +73,8 @@ Post a critical-path CSS generation request:
         "phantomJsOptions": { // see penthouse documentation and `phantomjs --help` for the list of all available options
             "proxy": "http://proxy.company.com:8080",
             "ssl-protocol": "SSLv3"
-        }
+        },
+        "userAgent": "Some customer User-Agent that ccsss will use when browsing `url`"  // defaults to "ccsss"
     }' http://localhost:8888/generation/request
 
 ccsss will return you something like the following:
