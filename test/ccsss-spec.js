@@ -20,7 +20,7 @@ function waitFor(predicate) {
 }
 
 describe('ccsss', () => {
-    let ccsssAppUrl, ccsssServer, fakeAppUrl, fakeAppServer, receivedNotification;
+    let ccsssAppUrl, ccsssServer, fakeAppUrl, fakeAppServer, receivedNotification, receivedNotificationHeaders;
 
     function fakeAppRequestHandler(req, response) {
         if (req.method === 'GET' && req.url === '/some-style.css') {
@@ -57,6 +57,7 @@ describe('ccsss', () => {
             });
             req.on('end', () => {
                 receivedNotification = JSON.parse(Buffer.concat(body).toString());
+                receivedNotificationHeaders = req.headers;
                 response.statusCode = 200;
                 response.end();
             });
@@ -117,7 +118,8 @@ describe('ccsss', () => {
                 notificationUrl: fakeAppUrl + '/notification',
                 phantomJsOptions: {
                     'ssl-protocol': 'SSLv2'
-                }
+                },
+                userAgent: 'custom user agent'
             })
             .expect(202)
             .expect('Content-Type', 'application/json')
@@ -136,6 +138,7 @@ describe('ccsss', () => {
                         expect(receivedNotification.generationId).to.equal(generationId);
                         expect(receivedNotification.status).to.equal('success');
                         expect(receivedNotification.resultLocation).to.equal(ccsssAppUrl + '/generation/result/' + generationId);
+                        expect(receivedNotificationHeaders['user-agent']).to.equal('custom user agent');
                     })
                     .then(() => {
                         return new Promise((resolve, reject) => {
