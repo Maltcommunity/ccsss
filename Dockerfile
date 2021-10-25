@@ -11,7 +11,11 @@ RUN apt-get update \
       --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
-RUN git clone https://github.com/Maltcommunity/ccsss.git /opt/ccsss
+COPY . /opt/ccsss
+
+RUN chown node:node /opt/ccsss/ -R
+
+USER node
 
 WORKDIR /opt/ccsss
 
